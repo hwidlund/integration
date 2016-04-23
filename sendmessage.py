@@ -13,12 +13,12 @@
 
 def SendEmail(message):
     import smtplib
-    sender = "messages-no-reply@sanmiguelcountyco.gov"
-    recipient = "heatherw@sanmiguelcountyco.gov"
+    sender = ""
+    recipient = ""
     subject = "Status message from script"
     # must include the from/to/subject text in message
     msg = "From: {0}\nTo: {1}\nSubject: {2}\n{3}".format(sender,recipient,subject,message)
-    smtpServer = "aspmx.l.google.com" # this will use gmail without a login but can only send within my domain
+    smtpServer = ""
     smtpPort = 25
     smtp = smtplib.SMTP(smtpServer,smtpPort)
     try:
