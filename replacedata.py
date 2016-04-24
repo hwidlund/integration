@@ -8,7 +8,7 @@
 #              heatherw@sanmiguelcountyco.gov
 # Credits:     Portions adapted from Esri Community Addresses local Government Solution scripts
 #              (http://solutions.arcgis.com/local-government/help/community-addresses/get-started/)
-# Date:        Jan 2016, revised Apr 8, 2016
+# Date:        Jan 2016, revised Apr 24, 2016
 # Versions:    Python 2.7.5 & ArcGIS 10.2+
 #-------------------------------------------------------------------------------
 # Requirements
@@ -56,10 +56,12 @@ def ReplaceIntData(config_file, log_file_location):
 
     # check for config file
     if os.path.isfile(config_file):
-        if not str(config_file).lower().endswith('.ini'):
+        if not os.path.splitext(config_file)[1] == ".ini":
             error = "Configuration file is not a *.ini file " + str(config_file)
             logger.error(error)
             return (False,error)
+
+        # initialize config parser object
         config = ConfigParser.ConfigParser()
 
         # read config file
