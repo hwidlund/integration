@@ -42,7 +42,7 @@ def Updater(configPath, logFilePath, dataPath):
     # call data replacement script on each one
     for root,dirs,files in os.walk(configPath):
         for f in files:
-            if f.lower().endswith('.ini'):
+            if os.path.splitext(f)[1] == ".ini":
                 logger.debug("*-----------------------------------------------------------*")
                 outcome = replacedata.ReplaceIntData(os.path.join(configPath,f), logFilePath)
                 if not outcome[0]:
