@@ -49,11 +49,13 @@ def DeleteData(intGdb, wcDict):
                 arcpy.SelectLayerByAttribute_management(fcLyr,"NEW_SELECTION",whereClause)
                 count = int(arcpy.GetCount_management(fcLyr).getOutput(0))
                 if count > 0:
-                    #arcpy.DeleteFeatures_management(fcLyr)
+#                    arcpy.DeleteFeatures_management(fcLyr)
+                    i = 0
                     with arcpy.da.UpdateCursor(fcLyr,["SID"]) as cursor:
                         for row in cursor:
+                            i+= 1
                             cursor.deleteRow()
-                    arcpy.AddMessage("{0} | Succeeded: deleted {1} features".format(fc,str(count)))
+                    arcpy.AddMessage("{0} | Succeeded: deleted {1} features".format(fc,str(i)))
             except Exception as e:
                 error = "ERROR | Delete " + fc + "/n" + str(e)
                 return (False, error)
