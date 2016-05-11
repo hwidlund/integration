@@ -35,7 +35,7 @@ def GetUniqueSods(fgdb, sodField):
     for fc in fcList:
         uniqueList = []
         # if the SOD field is in the list of fields for the feature class,
-        # (list obtained with "list comprehension")
+        # (list obtained with list comprehension)
         # cycle through values in SOD field and create a list of unique values
         try:
             if sodField in [f.name for f in arcpy.ListFields(fc,"",sodField)]:
@@ -46,7 +46,8 @@ def GetUniqueSods(fgdb, sodField):
                 del row, cursor
                 # add to dictionary of key:value pairs where fc is the key and the list of values is the value
                 fgdbDict[fc] = [uniqueList]
-            return(True,fgdbDict)
+
         except Exception as e:
             error = "ERROR | {0} {1} : Create unique list of SOD values".format(fgdbName,fc)
             return(False,error)
+    return(True,fgdbDict)
