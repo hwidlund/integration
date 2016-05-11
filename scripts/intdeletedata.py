@@ -49,7 +49,6 @@ def DeleteData(intGdb, wcDict):
                 arcpy.SelectLayerByAttribute_management(fcLyr,"NEW_SELECTION",whereClause)
                 count = int(arcpy.GetCount_management(fcLyr).getOutput(0))
                 if count > 0:
-#                    arcpy.DeleteFeatures_management(fcLyr)
                     i = 0
                     with arcpy.da.UpdateCursor(fcLyr,["SID"]) as cursor:
                         for row in cursor:
