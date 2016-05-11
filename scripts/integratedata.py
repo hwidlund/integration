@@ -43,7 +43,6 @@ def IntegrateData(srcDir, trgtDir, integratedGdb):
     # list all the file geodatabases in the target directory
     arcpy.env.workspace = trgtDir
     fgdbNames = arcpy.ListWorkspaces("*","FileGDB")
-
     # loop through file geodatabases
     # create where clauses for deleting old data
     # delete old data
@@ -62,7 +61,6 @@ def IntegrateData(srcDir, trgtDir, integratedGdb):
             sys.exit(2)
         wcDict = result[1]
         arcpy.AddMessage("Succeeded: get unique SOD values.")
-
         # delete old data using where clause of unique sod values
         arcpy.AddMessage(agencyName + ": deleting old data from integrated gdb...")
         result = intdeletedata.DeleteData(integratedGdb, wcDict)
