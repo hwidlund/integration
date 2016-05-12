@@ -46,8 +46,7 @@ def GetUniqueSods(fgdb, sodField):
                 del row, cursor
                 # add to dictionary of key:value pairs where fc is the key and the list of values is the value
                 fgdbDict[fc] = [uniqueList]
-
         except Exception as e:
-            error = "ERROR | {0} {1} : Create unique list of SOD values".format(fgdbName,fc)
+            error = "ERROR | {0} {1} : Create unique list of SOD values- {2}".format(fgdbName,fc, str(e))
             return(False,error)
     return(True,fgdbDict)
