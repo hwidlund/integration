@@ -34,7 +34,7 @@ def AppendToIntegrated(fgdb,intGdb):
         if arcpy.Exists(trgtFc):
             try:
                 count = int(arcpy.GetCount_management(fc).getOutput(0))
-                arcpy.AddMessage("{0} | Appending {1} features".format(fc,str(count)))
+                arcpy.AddMessage("{0}: {1} | Appending {2} features".format(fgdb,fc,str(count)))
                 arcpy.Append_management(fc,trgtFc,"NO_TEST")
                 message += "SUCCEEDED | Append " + fc
             except Exception as e:
