@@ -9,8 +9,6 @@
 # Credits:     Portions adapted from Esri Community Addresses local Government Solution scripts
 #              (http://solutions.arcgis.com/local-government/help/community-addresses/get-started/)
 # Date:        Jan 2016; revised Apr 24, 2016;
-#              Revised Aug 14, 2016 to overwrite or append to log files,
-#              depending on mode passed into function. w=overwrite, a=append
 # Versions:    Python 2.7.5 & ArcGIS 10.2+
 #-------------------------------------------------------------------------------
 # Requirements
@@ -60,8 +58,7 @@ def ReplaceIntData(config_file, log_file_location):
     if not os.path.isdir(log_file_location):
         os.mkdir(log_file_location)
     try:
-        # append to log files
-        configlogging.ConfigLogging(log_file_location,'a')
+        configlogging.ConfigLogging(log_file_location)
     except:
         print('log file error')
         sys.exit(1)

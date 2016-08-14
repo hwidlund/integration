@@ -5,8 +5,6 @@
 # Author:      Heather Widlund, San Miguel County, CO
 #              heatherw@sanmiguelcountyco.gov
 # Date:        Feb 2016, updated Mar 26, 2016;
-#              Revised Aug 14, 2016 to overwrite or append to log files,
-#              depending on mode passed into function. w=overwrite, a=append
 # Versions:    Python 2.7.5 & ArcGIS 10.2+
 #-------------------------------------------------------------------------------
 # Requirements
@@ -41,8 +39,7 @@ def Updater(configPath, logFilePath, dataPath):
     if not os.path.isdir(logFilePath):
         os.mkdir(logFilePath)
     try:
-        # overwrite previous log files
-        configlogging.ConfigLogging(logFilePath,'w')
+        configlogging.ConfigLogging(logFilePath)
     except:
         print('log file error')
         sys.exit(1)         ## log file error
