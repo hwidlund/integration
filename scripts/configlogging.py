@@ -7,6 +7,8 @@
 #              heatherw@sanmiguelcountyco.gov
 #
 # Created:     Jan 2016
+#              Revised Aug 14, 2016 to overwrite or append to log files,
+#              depending on mode passed into function. w=overwrite, a=append
 #-------------------------------------------------------------------------------
 # sources
 # http://www.blog.pythonlibrary.org/2014/02/11/python-how-to-create-rotating-logs/
@@ -26,11 +28,10 @@
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 '''
-
-def ConfigLogging(logFileLocation):
+def ConfigLogging(logFileLocation, mode):
     import os, logging
-    from logging import handlers
-    from logging import config
+    import logging.handlers
+    import logging.config
 
     LOGGING = {
         'version':1,
@@ -39,34 +40,21 @@ def ConfigLogging(logFileLocation):
             'verbose': {
                 'format': '%(asctime)s - %(levelname)s - %(module)s - %(message)s'
             }
-##            'simple': {
-##                'format': '%(asctime)s - %(message)s'
-##            },
           },
          'handlers': {
             'debuglog': {
                 'level': 'DEBUG',
-                'class': 'logging.handlers.RotatingFileHandler',
+                'class': 'logging.FileHandler',
                 'formatter': 'verbose',
                 'filename': os.path.join(logFileLocation, 'debuglog.log'),
-                'maxBytes': 100000,
-                'backupCount': 4
+                'mode': mode
             },
-##            'infolog': {
-##                'level': 'INFO',
-##                'class': 'logging.handlers.RotatingFileHandler',
-##                'formatter': 'simple',
-##                'filename': os.path.join(logFileLocation, 'infolog.log'),
-##                'maxBytes': 1000000
-##                'backupCount': 4
-##             },
              'warnlog': {
                 'level': 'WARNING',
-                'class': 'logging.handlers.RotatingFileHandler',
+                'class': 'logging.FileHandler',
                 'formatter': 'verbose',
                 'filename': os.path.join(logFileLocation,'warnlog.log'),
-                'maxBytes': 100000,
-                'backupCount': 4
+                'mode': mode
               }
          },
          'loggers': {
