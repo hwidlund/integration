@@ -4,7 +4,7 @@
 # Purpose:     Validate field lengths/types
 # Author:      Heather Widlund, San Miguel County, CO
 #              heatherw@sanmiguelcountyco.gov
-# Date:        Jan 2016, revised Apr 20, 2016
+# Date:        Jan 2016, revised Apr 20, 2016, revised Sept 5, 2016
 # Versions:    Python 2.7.5 & ArcGIS 10.2+
 #-------------------------------------------------------------------------------
 '''
@@ -38,10 +38,12 @@ def ValidateFields(srcFC, destFC, fldMapDict):
     # the fldMapDict dictionary is built from that.)
     # For example: srcDict["SOD"] = ["String", 20]
     for srcField in srcFields:
-        srcDict[srcField.name] = [srcField.type, srcField.length]
+        if not srcField.required:
+            srcDict[srcField.name] = [srcField.type, srcField.length]
 
     for destField in destFields:
-        destDict[destField.name] = [destField.type, destField.length]
+        if not destField.required:
+            destDict[destField.name] = [destField.type, destField.length]
 
     # iterate through the field mapping dictionary
     # check for type and length mismatches
