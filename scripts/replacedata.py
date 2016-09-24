@@ -8,15 +8,16 @@
 #              heatherw@sanmiguelcountyco.gov
 # Credits:     Portions adapted from Esri Community Addresses local Government Solution scripts
 #              (http://solutions.arcgis.com/local-government/help/community-addresses/get-started/)
-# Date:        Jan 2016; revised Apr 24, 2016;
+# Date:        Jan 2016; revised 24 Apr 2016; revised doc 24 Sept 2016
 # Versions:    Python 2.7.5 & ArcGIS 10.2+
 #-------------------------------------------------------------------------------
 # Requirements
 # 0. Full path/name of *.ini file which holds the configurations.
 #    See config scripts for details. i.e. configaddresspts.py
 # 1. Folder location for log files (warnlog.log, debuglog.log)
-# (2.) Source of data field name is coded below in buildsql function as 'SOD'
-# (3.) Unique ID field name is coded as idFieldName = 'SID' below
+# (2.) Source of data field name is coded on line 139 (tested for existence) as 'SOD'
+# (3.) Source of data field name is coded below in buildsql function as 'SOD'
+# (4.) Unique ID field name is coded as idFieldName = 'SID' below
 # Helper scripts must be in same folder as this script
 # Helper scripts: fieldmappings.py, appenddata.py, truncatetable.py,
 #   buildsql.py, configlogging.py, validatefields.py, uniqueid.py,
