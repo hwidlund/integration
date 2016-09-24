@@ -3,11 +3,12 @@ Colorado West Region Data Integration Group
 Name:       integratedata.py
 Purpose:    integrate data from zipped file geodatabases using SCRIPT TOOL
 
-Author:      Heather Widlund, San Miguel County, CO
-             heatherw@sanmiguelcountyco.gov
-Created:     08 May 2016, updated 5/21/16
-Copyright:   Heather Widlund (2016)
-License:     GNU GPL
+Author:     Heather Widlund, San Miguel County, CO
+            heatherw@sanmiguelcountyco.gov
+Created:    08 May 2016, updated 21 May 2016
+            Revised 24 Sept 2016 to add source of data/agency code as parameter
+Copyright:  Heather Widlund (2016)
+License:    GNU GPL
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
     the Free Software Foundation, either version 3 of the License, or
@@ -29,7 +30,7 @@ import intdeletedata        ## delete old data using SOD list
 import intappend            ## append new data
 import removemetadata       ## remove gp history & machine info
 
-def IntegrateData(srcDir, trgtDir, integratedGdb):
+def IntegrateData(srcDir, trgtDir, integratedGdb, sodField):
     arcpy.env.overwriteOutput = True
     arcpy.AddMessage("Starting data integration...")
     arcpy.AddMessage("Unzipping geodatabases from " + srcDir)
@@ -44,31 +45,31 @@ def IntegrateData(srcDir, trgtDir, integratedGdb):
     # list all the file geodatabases in the target directory
     arcpy.env.workspace = trgtDir
     fgdbNames = arcpy.ListWorkspaces("*","FileGDB")
-    sodField = "SOD"        ## source of data field
+
 
     # loop through file geodatabases
     # for each geodatabase:
         # create where clauses for deleting old data
         # delete old data
         # append new data
-        #remove metadata (gp history and machine info)
+        # remove metadata (gp history and machine info)
     for fgdb in fgdbNames:
         arcpy.env.workspace = fgdb
         agencyName = os.path.basename(os.path.splitext(fgdb)[0])
 
         # get dictionary of {layer names:unique sods}
-        arcpy.AddMessage(agencyName + ": getting list of unique SOD values...")
+        arcpy.AddMessage(agencyName + ": getting list of unique agency code values...")
         result = intsodlist.GetUniqueSods(fgdb, sodField)
         if not result[0]:
-            error = "{0} | Failed: get unique SOD values. | {1}".format(agencyName, result[1])
+            error = "{0} | Failed: get unique agency code values. | {1}".format(agencyName, result[1])
             arcpy.AddError(error)
             sys.exit(2)
         wcDict = result[1]
-        arcpy.AddMessage(agencyName + " | Succeeded: get unique SOD values.")
+        arcpy.AddMessage(agencyName + " | Succeeded: get unique agency code values.")
 
         # delete old data using where clause of unique sod values
         arcpy.AddMessage(agencyName + ": deleting old data from integrated gdb...")
-        result = intdeletedata.DeleteData(integratedGdb, wcDict)
+        result = intdeletedata.DeleteData(integratedGdb, wcDict,sodField)
         if not result[0]:
             error = "{0} | Failed: delete old data | {1}".format(agencyName, result[1])
             arcpy.AddError(error)
@@ -99,10 +100,9 @@ def IntegrateData(srcDir, trgtDir, integratedGdb):
     arcpy.AddMessage(integratedGdb + " | Succeeded: remove unneeded metadata.")
     # end of the loop for the file geodatabase
 
-
-
 if __name__ == "__main__":
     srcDir = arcpy.GetParameterAsText(0)
     trgtDir = arcpy.GetParameterAsText(1)
     intGdb = arcpy.GetParameterAsText(2)
-    IntegrateData(srcDir,trgtDir,intGdb)
+    sodField = arcpy.GetParameterAsText(3)
+    IntegrateData(srcDir,trgtDir,intGdb,sodField)

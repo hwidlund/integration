@@ -1,7 +1,7 @@
 '''
 Colorado West Region Data Integration Group
 Name:       intsodlist.py
-Purpose:    create list of valid SOD values for each feature class, add to
+Purpose:    create list of valid agency code (SOD) values for each feature class, add to
             a dictionary with the key as the feature class name, and the list as the value
 Author:      Heather Widlund, San Miguel County, CO
              heatherw@sanmiguelcountyco.gov
