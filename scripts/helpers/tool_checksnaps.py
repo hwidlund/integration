@@ -3,16 +3,16 @@ Colorado West Region Data Integration Group
 Name:       tool_checksnaps.py
 Purpose:    Script tool to check if lines near snap points are actually snapped to them.
             Create a new feature class of points where 1 or more nearby
-            lines are not snapped to the point.
+            line endpoints are not snapped to the point.
 Requirements:
-            0. Feature class containing snap points in projected coordinates
-            1. Feature class containing roads in projected coordinates.
+            0. Feature class containing snap points
+            1. Feature class containing roads
             2. New output feature class for unsnapped points
             3. Search distance (15 feet seems to work)
 
 Author:      Heather Widlund
              heatherw@sanmiguelcountyco.gov
-Created:     21 Jun 2016
+Created:     21 Jun 2016; revised 2 Sept 2016 to check endpoints instead of lines
 Copyright:   Heather Widlund (2016)
 License:     GNU GPL
     This program is free software: you can redistribute it and/or modify
@@ -91,6 +91,8 @@ try:
     if len(ids) != 0:
         arcpy.CopyFeatures_management(spLyr2,outFc)
         arcpy.AddMessage("Script finished. To view unsnapped, add {0} to map.".format(outFc))
+    else:
+        arcpy.AddMessage("Script finished. No unsnapped segments found.")
     del row, cursor, currentLyr, rdLyr, spLyr, spLyr2
 except Exception as e:
     arcpy.AddError("Error: " + str(e))
