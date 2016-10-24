@@ -1,6 +1,6 @@
 #-------------------------------------------------------------------------------
 # Colorado West Region Data Integration Group
-# Name:        build_sql_exp.py
+# Name:        buildsql.py
 # Purpose:     Build where clause with appropriate delimiters
 # Author:      Heather Widlund, San Miguel County, CO
 #              heatherw@sanmiguelcountyco.gov
@@ -22,7 +22,6 @@
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 '''
-
 import arcpy
 def BuildSQL(inputFC, field, value):
 

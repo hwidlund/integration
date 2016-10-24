@@ -50,7 +50,7 @@ def Updater(configPath, logFilePath, dataPath):
 
     # T/F send error message
     sendError = False       ## this will be tripped to true if an error is encountered
-    sendType = ""           ## change to "email" if using notifications
+    sendType = ""           ## change to "email" if using notifications, need to configure sendmessage.py
 
     # iterate through all ini files in configuration directory
     # call data replacement script on each one

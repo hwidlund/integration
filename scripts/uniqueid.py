@@ -37,24 +37,27 @@ def UniqueId(inputFC, idFieldName):
     message = ""
 
     try:
-        rows = arcpy.da.SearchCursor(inputFC,[idFieldName])
-        for row in rows:
-            sid = row[0]
-            if len(sid) < 8:
-                invIdList.append(sid)
-                continue
-            if sid in uniqueIdList:
-                dupeIdList.append(sid)
-            else:
-                uniqueIdList.append(sid)
+        with arcpy.da.SearchCursor(inputFC,[idFieldName]) as rows:
+            for row in rows:
+                sid = row[0]
+                if not sid or sid == "" or sid == None:
+                    invIdList.append("NULL")
+                    continue
+                if len(sid) < 8:
+                    invIdList.append(sid)
+                    continue
+                if sid in uniqueIdList:
+                    dupeIdList.append(sid)
+                else:
+                    uniqueIdList.append(sid)
 
-        if len(invIdList) > 0:
-            message = 'Invalid or null ids found (' + str(len(invIdList)) + ')\n'
-            #message += ','.join(invIdList)
-        if len(dupeIdList) > 0:
-            message += 'Duplicate ids found (' + str(len(dupeIdList)) + ')\n'
-            message += '\n'.join(dupeIdList)
-        return (True, message)
+            if len(invIdList) > 0:
+                message = 'Invalid or null ids found (' + str(len(invIdList)) + ')\n'
+                #message += ','.join(invIdList)
+            if len(dupeIdList) > 0:
+                message += 'Duplicate ids found (' + str(len(dupeIdList)) + ')\n'
+                message += '\n'.join(dupeIdList)
+            return (True, message)
     except Exception as e:
         error = 'Failed: validate ids. ' + str(e)
         return (False, error)

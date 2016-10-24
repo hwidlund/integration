@@ -6,7 +6,7 @@
 #              heatherw@sanmiguelcountyco.gov
 # Credits:     Portions adapted from Esri Community Addresses local Government Solution scripts
 #              (http://solutions.arcgis.com/local-government/help/community-addresses/get-started/)
-# Date:        Feb 2016
+# Date:        Feb 2016, revised 28 Sept 2016
 # Versions:    Python 2.7.5 & ArcGIS 10.2+
 #-------------------------------------------------------------------------------
 # Parameters:
@@ -61,8 +61,8 @@ def main(config_file,                       #0 config file name & path
          datumTransformation = "",          #6 Datum Transformation
 
          sod = "",                          #7 SOD source of data
-         sid = "",                          #8 SID unique ID
-         esn = "",                          #9 ESN
+         edt = "",                          #8 EDT date boundary is effective
+         esn = "",                          #9 Administrative ESN
          rtgesn = "",                       #10 Routing ESN
          psap = "",                         #11 PSAP name
          community = "",                    #12 Community

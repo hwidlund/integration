@@ -6,6 +6,7 @@
 # Author:      Heather Widlund, San Miguel County, CO
 #              heatherw@sanmiguelcountyco.gov
 # Date:        Jan 2016, updated Mar 25, 2016
+#              revised 14 Oct 2016 to add check for results of where clause
 # Versions:    Python 2.7.5 & ArcGIS 10.2+
 #-------------------------------------------------------------------------------
 # Requirements
@@ -28,7 +29,6 @@
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 '''
-
 import arcpy
 
 def AppendData(inputFC, outputFC, whereClause, fieldMappings):
@@ -41,6 +41,11 @@ def AppendData(inputFC, outputFC, whereClause, fieldMappings):
     try:
         arcpy.MakeFeatureLayer_management(inputFC, flInput, whereClause)
         arcpy.SelectLayerByAttribute_management(flInput, 'NEW_SELECTION', whereClause)
+        fCount = int(arcpy.GetCount_management(flInput).getOutput(0))
+        if not fCount or fCount == 0:
+            error = "Failed: make feature layer and selection with SQL where clause"
+            error += "\n{0} | {1}: No features found. Exiting.".format(inputFC, whereClause)
+            return(False,error)
     except Exception as e:
         error = "Failed: make feature layer and selection with SQL where clause. " + str(e)
         del flInput

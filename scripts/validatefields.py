@@ -36,7 +36,7 @@ def ValidateFields(srcFC, destFC, fldMapDict):
     # so they can be accessed by name as well as hold the field
     # characteristics of type and length. (Field names are in the config file &
     # the fldMapDict dictionary is built from that.)
-    # For example: srcDict["SOD"] = ["String", 20]
+    # For example: srcDict["SOD"] = ["String", 6]
     for srcField in srcFields:
         if not srcField.required:
             srcDict[srcField.name] = [srcField.type, srcField.length]
@@ -48,18 +48,20 @@ def ValidateFields(srcFC, destFC, fldMapDict):
     # iterate through the field mapping dictionary
     # check for type and length mismatches
     for dfld, sfld in fldMapDict.items():
-       if not sfld == '':                          ## if the destination field is *not unmatched* in source
-            dfldUpper = dfld.upper()               ## uppercase the destination field name (is all lowercase in key/value pair in config file)
-            if dfldUpper in destDict and sfld in srcDict:  ## if the destination field (from the config file) is in the dictionary of destination fields (in the output feature class)
-                                                   ## and if the source field (from the config file) is in the dictionary of source fields in the input feature class
+       if not sfld == '':                      ## if the destination field is *not unmatched* in source
+            dfldUpper = dfld.upper()           ## uppercase the destination field name
+            if dfldUpper in destDict:          ## if the destination field (from the config file) is in the
+                                               ##   dictionary of destination fields (in the output feature class)
                 dfldType = destDict[dfldUpper][0]  ## get the field type
                 dfldLen = destDict[dfldUpper][1]   ## get the field length
-                sfldType = srcDict[sfld][0]        ## get the field type
-                sfldLen = srcDict[sfld][1]         ## get the field length
-                if dfldType == 'String' and sfldType == 'String' and dfldLen < sfldLen:  ## a fatal error: field won't append
-                    error += "String field length mismatch (fatal error):  target " + dfldUpper + " length: " + str(dfldLen) + " source " + sfld + " length: " + str(sfldLen) + "\n"
-                if not dfldType == sfldType:           ## not a fatal error
-                    message += "Field type mismatch (not a fatal error): " + dfldUpper + " (" + dfldType + ") & " + sfld + " (" + sfldType + ")\n"
+            if sfld in srcDict:                ## if the source field (from the config file) is in the dictionary
+                                               ## of source fields in the input feature class
+                sfldType = srcDict[sfld][0]    ## get the field type
+                sfldLen = srcDict[sfld][1]     ## get the field length
+            if dfldType == 'String' and sfldType == 'String' and dfldLen < sfldLen: ## a fatal error: field won't append
+                error += "Field length mismatch (too long): {0} < {1}\n".format(dfldUpper, sfld)
+            if not dfldType == sfldType:           ## not a fatal error
+                message += "Field type mismatch: {0} ({1}) & {2} ({3})\n".format(dfldUpper, dfldType, sfld, sfldType)
     if error == "":
         return (True, message)
     else:

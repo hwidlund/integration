@@ -27,6 +27,7 @@
 import os, sys
 import glob
 import zipfile
+from zipfile import zlib
 
 def ZipFgdb(dataPath):
     error = ""

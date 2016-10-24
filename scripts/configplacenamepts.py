@@ -1,6 +1,6 @@
 #-------------------------------------------------------------------------------
 # Colorado West Region Data Integration Group
-# Name:        config_placenamepts.py
+# Name:        configplacenamepts.py
 # Purpose:     Write configuration file for place name points
 # Author:      Heather Widlund, San Miguel County, CO
 #              heatherw@sanmiguelcountyco.gov

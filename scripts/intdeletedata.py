@@ -43,8 +43,9 @@ def DeleteData(intGdb, wcDict, sodField):
     intFcList = arcpy.ListFeatureClasses()
     # loop through feature classes and delete old data
     for fc in intFcList:
-        if wcDict.has_key(fc):
-            # look for feature class name as key in dictionary, grab valid list of sods from value element
+        if fc in wcDict:
+            # look for feature class name as key in dictionary
+            # grab valid list of sods from value element
             validSodList = wcDict[fc][0]
             result = CreateWhereClause(validSodList, sodField)  ## call above function to create the list
             whereClause = result[1]
@@ -61,7 +62,7 @@ def DeleteData(intGdb, wcDict, sodField):
                             cursor.deleteRow()
                     arcpy.AddMessage("{0} | Succeeded: deleted {1} features".format(fc,str(i)))
             except Exception as e:
-                error = "ERROR | Delete " + fc + "/n" + str(e)
+                error = "ERROR | Delete {0} /n {1}".format(fc,str(e))
                 return (False, error)
             finally:
                 del fcLyr
