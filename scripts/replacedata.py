@@ -8,16 +8,17 @@
 #              heatherw@sanmiguelcountyco.gov
 # Credits:     Portions adapted from Esri Community Addresses local Government Solution scripts
 #              (http://solutions.arcgis.com/local-government/help/community-addresses/get-started/)
-# Date:        Jan 2016; revised 24 Apr 2016; revised doc 24 Sept 2016
+# Date:        Jan 2016; revised 24 Apr 2016; revised doc 24 Sept 2016,
+#              revised 19 October 2016 to check schema locks
 # Versions:    Python 2.7.5 & ArcGIS 10.2+
 #-------------------------------------------------------------------------------
 # Requirements
 # 0. Full path/name of *.ini file which holds the configurations.
 #    See config scripts for details. i.e. configaddresspts.py
 # 1. Folder location for log files (warnlog.log, debuglog.log)
-# (2.) Source of data field name is coded on line 139 (tested for existence) as 'SOD'
+# (2.) Source of data field name is coded below in test for existence as 'SOD'
 # (3.) Source of data field name is coded below in buildsql function as 'SOD'
-# (4.) Unique ID field name is coded as idFieldName = 'SID' below
+# (4.) Unique ID field name is coded below as idFieldName = 'SID'
 # Helper scripts must be in same folder as this script
 # Helper scripts: fieldmappings.py, appenddata.py, truncatetable.py,
 #   buildsql.py, configlogging.py, validatefields.py, uniqueid.py,
@@ -144,6 +145,12 @@ def ReplaceIntData(config_file, log_file_location):
         error = inputName + "| Failed: check for existence of SOD field"
         logger.error(error)
         return (False,error)
+
+    # fail if cannot acquire a schema lock for the output feature class
+    if not arcpy.TestSchemaLock(outputFeatureClass):
+        error = "Failed: cannot obtain schema lock for {0}".format(outputName)
+        logger.error(error)
+        return (False, error)
 
     #---------------------------------
     # Field mapping: create dictionary from all field name pairs ("options" & "values")
